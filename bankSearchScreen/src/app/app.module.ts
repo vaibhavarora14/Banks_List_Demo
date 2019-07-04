@@ -32,3 +32,4 @@ import { SearchPipe } from './search.pipe';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
