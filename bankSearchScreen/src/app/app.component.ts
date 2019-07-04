@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LyTheme2, ThemeVariables } from '@alyle/ui';
+import { BanksService } from './banks.service';
 
 const STYLES = (theme: ThemeVariables) => ({
   '@global': {
@@ -23,6 +24,6 @@ export class AppComponent {
 
   title = 'bankSearchScreen';
 
-  constructor(private theme: LyTheme2) { }
+  constructor(private theme: LyTheme2, private bankService: BanksService) { }
 
 }

@@ -9,10 +9,14 @@ import { MinimaLight } from '@alyle/ui/themes/minima';
 import { LyButtonModule } from '@alyle/ui/button';
 import { LyCommonModule } from '@alyle/ui';
 import { LyGridModule } from '@alyle/ui/grid';
+import { SearchComponent } from './search/search.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchComponent,
+    PaginationComponent
   ],
   imports: [
     BrowserModule,
