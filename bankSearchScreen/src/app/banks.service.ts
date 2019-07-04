@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Bank } from './bank';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BanksService {
-  bankData: Bank[];
+  private bankData: Bank[];
+  bankDataChanged = new Subject<Bank[]>();
+  searchedText = new Subject<string>();
 
   constructor() {
     this.fetchData();
@@ -13,10 +16,10 @@ export class BanksService {
 
   fetchData() {
     this.bankData = this.fetchFromLocalStorage();
-    console.log('-- Fetched from LocalStorage --');
-    console.log(this.bankData);
     if (!this.bankData) {
       this.fetchFromAPI();
+    } else {
+      this.pushBankData();
     }
   }
 
@@ -25,11 +28,22 @@ export class BanksService {
     const dataFromResponse: Bank[] = await dataFromAPI.json();
     this.bankData = dataFromResponse;
     localStorage.setItem('bank_list', JSON.stringify(this.bankData));
-    console.log('-- Fetched from API --');
-    console.log(this.bankData);
+    this.pushBankData();
   }
 
   fetchFromLocalStorage() {
     return JSON.parse(localStorage.getItem('bank_list'));
+  }
+
+  getBankData() {
+    return this.bankData.slice();
+  }
+
+  pushBankData() {
+    this.bankDataChanged.next(this.bankData.slice());
+  }
+
+  search(value: string) {
+    this.searchedText.next(value);
   }
 }

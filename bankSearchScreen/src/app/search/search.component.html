@@ -1,3 +1,7 @@
-<p>
-  search works!
-</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4 col-offset-4">
+      <input type="text" (input)="filter($event.target.value)" class="form-control">
+    </div>
+  </div>
+</div>
