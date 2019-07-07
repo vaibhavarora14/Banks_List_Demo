@@ -22,3 +22,4 @@ export class BankInformationComponent implements OnInit {
   }
 
 }
+
