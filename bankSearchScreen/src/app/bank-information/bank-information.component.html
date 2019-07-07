@@ -1,44 +1,50 @@
-<div class="table-responsive">
-  <table class="table">
-    <thead>
-      <th scope="col" class="column-head"> IFSC </th>
-      <th scope="col" class="column-head"> Id </th>
-      <th scope="col" class="column-head"> Branch </th>
-      <th scope="col" class="column-head mw-30"> Address </th>
-      <th scope="col" class="column-head"> City </th>
-      <th scope="col" class="column-head"> District
-      </th>
-      <th scope="col" class="column-head"> State </th>
-      <th scope="col" class="column-head"> Bank name
-      </th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let bank of bankData | search:searchedText">
-          <td>
-            {{bank.ifsc}}
-          </td>
-          <td>
-            {{bank.bank_id}}
-          </td>
-          <td>
-            {{bank.branch}}
-          </td>
-          <td>
-            {{bank.address}}
-          </td>
-          <td>
-            {{bank.city}}
-          </td>
-          <td>
-            {{bank.district}}
-          </td>
-          <td>
-            {{bank.state}}
-          </td>
-          <td>
-            {{bank.bank_name}}
-          </td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <th scope="col" class="column-head"> IFSC </th>
+            <th scope="col" class="column-head"> Id </th>
+            <th scope="col" class="column-head"> Branch </th>
+            <th scope="col" class="column-head mw-15"> Address </th>
+            <th scope="col" class="column-head"> City </th>
+            <th scope="col" class="column-head"> District
+            </th>
+            <th scope="col" class="column-head"> State </th>
+            <th scope="col" class="column-head"> Bank name
+            </th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bank of bankData | search:searchedText">
+              <td>
+                {{bank.ifsc}}
+              </td>
+              <td>
+                {{bank.bank_id}}
+              </td>
+              <td>
+                {{bank.branch}}
+              </td>
+              <td class="mw-15">
+                {{bank.address}}
+              </td>
+              <td>
+                {{bank.city}}
+              </td>
+              <td>
+                {{bank.district}}
+              </td>
+              <td>
+                {{bank.state}}
+              </td>
+              <td>
+                {{bank.bank_name}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

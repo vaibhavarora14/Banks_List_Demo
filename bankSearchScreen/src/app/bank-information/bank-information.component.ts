@@ -16,7 +16,9 @@ export class BankInformationComponent implements OnInit {
   ngOnInit() {
     this.bankData = this.bankService.getBankData();
     this.bankService.bankDataChanged.subscribe(
-      (bankData: Bank[]) => this.bankData = bankData
+      (bankData: Bank[]) => {
+        this.bankData = bankData;
+      }
     );
     console.log(this.bankData);
 

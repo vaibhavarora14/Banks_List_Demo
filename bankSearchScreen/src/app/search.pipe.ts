@@ -7,11 +7,10 @@ export class SearchPipe implements PipeTransform {
 
   transform(value: any, searchValue: string) {
     if (searchValue.length !== 0) {
-      return value.filter(function(obj) {
-        return Object.keys(obj).some(function(key) {
-          debugger;
+      return value.filter((obj) => {
+        return Object.keys(obj).some((key) => {
           try {
-            return obj[key].includes(searchValue);
+            return obj[key].toUpperCase().includes(searchValue.toUpperCase());
           } catch (e) {
             return false;
           }
