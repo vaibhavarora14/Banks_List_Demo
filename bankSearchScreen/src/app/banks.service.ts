@@ -7,71 +7,69 @@ import { Subject } from 'rxjs';
 })
 export class BanksService {
   private bankData: Bank[];
-  bankDataChanged = new Subject<Bank[]>();
-  filteredData = new Subject<Bank[]>();
-  searchedText = new Subject<string>();
-  selectedPaginationPage = 0;
+  private filteredBanksData: Bank[];
+  private selectedPaginationPage = 0;
+
+  banks = new Subject<Bank[]>();
+  filteredBanks = new Subject<Bank[]>();
 
   constructor() {
     this.fetchData();
   }
 
-  fetchData() {
+  private fetchData() {
     this.bankData = this.fetchFromLocalStorage();
     if (!this.bankData) {
       this.fetchFromAPI();
     } else {
-      this.pushBankData();
+      this.updateChangesWithBanks();
     }
   }
 
-  async fetchFromAPI() {
+  private async fetchFromAPI() {
     const dataFromAPI = await fetch('https://vast-shore-74260.herokuapp.com/banks?city=MUMBAI');
     const dataFromResponse: Bank[] = await dataFromAPI.json();
     this.bankData = dataFromResponse;
     localStorage.setItem('bank_list', JSON.stringify(this.bankData));
-    this.pushBankData();
+    this.updateChangesWithBanks();
   }
 
-  fetchFromLocalStorage() {
+  private fetchFromLocalStorage() {
     return JSON.parse(localStorage.getItem('bank_list'));
   }
 
-  getBankData(filteredData?: Bank[]) {
-    const data = filteredData ? filteredData : this.bankData;
+  getBanksForSelectedPage(filteredBanks?: Bank[]) {
+    const data = filteredBanks ? filteredBanks : this.bankData;
     if (this.selectedPaginationPage < 1) {
       return data.slice(0, 10);
     } else {
-      return data.slice(((this.selectedPaginationPage - 1) * 10 + 1), (this.selectedPaginationPage * 10));
+      const startingNumber = (this.selectedPaginationPage - 1) * 10;
+      const endingNumber = this.selectedPaginationPage * 10;
+      return data.slice(startingNumber > 0 ? startingNumber + 1 : startingNumber, endingNumber);
     }
   }
 
-  getBankFullData() {
-   return this.bankData.slice();
+  getBanksCount() {
+    return this.bankData.length;
   }
 
-  pushBankData() {
-    this.bankDataChanged.next(this.bankData.slice());
+  private updateChangesWithBanks() {
+    this.banks.next(this.bankData.slice());
   }
 
   search(value: string) {
-    // this.searchedText.next(value);
-    debugger;
-    const bankData = this.filterBankData(value);
-    this.bankDataChanged.next(this.getBankData(bankData));
-    this.filteredData.next(bankData);
+    this.selectedPaginationPage = 0;
+    this.filteredBanksData = this.filterBankData(value);
+    this.banks.next(this.getBanksForSelectedPage(this.filteredBanksData));
+    this.filteredBanks.next(this.filteredBanksData);
   }
 
   private filterBankData(value: string): Bank[] {
-    const filteredBankData = this.getBankFullData().slice();
+    const filteredBankData = this.bankData.slice();
     if (value.length !== 0) {
       return filteredBankData.filter((obj) => {
         return Object.keys(obj).some((key) => {
-          try {
-            return obj[key].toUpperCase().includes(value.toUpperCase());
-          } catch (e) {
-            return false;
-          }
+          return obj[key].toString().toUpperCase().includes(value.toUpperCase());
         });
       });
     } else {
@@ -82,7 +80,7 @@ export class BanksService {
   changePage(pageNumber: number) {
     if (pageNumber !== this.selectedPaginationPage) {
       this.selectedPaginationPage = pageNumber;
-      this.bankDataChanged.next(this.getBankData());
+      this.banks.next(this.getBanksForSelectedPage(this.filteredBanksData));
     }
   }
 }

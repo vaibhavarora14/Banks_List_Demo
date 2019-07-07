@@ -9,21 +9,15 @@ import { BanksService } from '../banks.service';
 })
 export class BankInformationComponent implements OnInit {
   bankData: Bank[] = [];
-  searchedText = '';
 
   constructor(private bankService: BanksService) { }
 
   ngOnInit() {
-    this.bankData = this.bankService.getBankData();
-    this.bankService.bankDataChanged.subscribe(
+    this.bankData = this.bankService.getBanksForSelectedPage();
+    this.bankService.banks.subscribe(
       (bankData: Bank[]) => {
         this.bankData = bankData;
       }
-    );
-    console.log(this.bankData);
-
-    this.bankService.searchedText.subscribe(
-      (value: string) => this.searchedText = value
     );
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Bank } from '../bank';
 import { BanksService } from '../banks.service';
 
@@ -7,32 +7,25 @@ import { BanksService } from '../banks.service';
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss']
 })
-export class PaginationComponent implements OnInit {
+export class PaginationComponent {
   paginationNumbers: number;
   paginationArray: string[];
 
   constructor(private bankService: BanksService) {
-    const banks = bankService.getBankFullData();
-    this.paginationNumbers = Math.round(banks.length / 10);
-    this.paginationArray = new Array(this.paginationNumbers);
-
-    this.bankService.filteredData.subscribe(
+    this.updatePaginationArray(bankService.getBanksCount());
+    this.bankService.filteredBanks.subscribe(
       (banksData: Bank[]) => {
-        debugger;
-        this.paginationNumbers = Math.round(banksData.length / 10);
-        this.paginationArray = new Array(this.paginationNumbers);
+        this.updatePaginationArray(banksData.length);
       }
     );
   }
 
-  ngOnInit() {
-  }
-  changePagination(pageNumber: number) {
-    if (this.bankService.selectedPaginationPage === pageNumber) {
-      return false;
-    } else {
-      this.bankService.changePage(pageNumber);
-    }
+  updatePaginationArray(banksCount: number) {
+    this.paginationNumbers = Math.round(banksCount / 10);
+    this.paginationArray = new Array(this.paginationNumbers);
   }
 
+  changePagination(pageNumber: number) {
+      this.bankService.changePage(pageNumber);
+  }
 }

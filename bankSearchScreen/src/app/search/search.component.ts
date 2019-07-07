@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BanksService } from '../banks.service';
 
 @Component({
@@ -6,12 +6,9 @@ import { BanksService } from '../banks.service';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
 
   constructor(private bankService: BanksService) { }
-
-  ngOnInit() {
-  }
 
   filter(value: string) {
     this.bankService.search(value);
