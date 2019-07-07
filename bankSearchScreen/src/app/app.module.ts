@@ -12,7 +12,6 @@ import { LyGridModule } from '@alyle/ui/grid';
 import { SearchComponent } from './search/search.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { BankInformationComponent } from './bank-information/bank-information.component';
-import { SearchPipe } from './search.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +19,6 @@ import { SearchPipe } from './search.pipe';
     SearchComponent,
     PaginationComponent,
     BankInformationComponent,
-    SearchPipe
   ],
   imports: [
     BrowserModule,

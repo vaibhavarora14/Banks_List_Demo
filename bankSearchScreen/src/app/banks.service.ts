@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 export class BanksService {
   private bankData: Bank[];
   bankDataChanged = new Subject<Bank[]>();
+  filteredData = new Subject<Bank[]>();
   searchedText = new Subject<string>();
   selectedPaginationPage = 0;
 
@@ -36,11 +37,12 @@ export class BanksService {
     return JSON.parse(localStorage.getItem('bank_list'));
   }
 
-  getBankData() {
+  getBankData(filteredData?: Bank[]) {
+    const data = filteredData ? filteredData : this.bankData;
     if (this.selectedPaginationPage < 1) {
-      return this.bankData.slice(0, 10);
+      return data.slice(0, 10);
     } else {
-      return this.bankData.slice(((this.selectedPaginationPage - 1) * 10 + 1), (this.selectedPaginationPage * 10));
+      return data.slice(((this.selectedPaginationPage - 1) * 10 + 1), (this.selectedPaginationPage * 10));
     }
   }
 
@@ -53,7 +55,28 @@ export class BanksService {
   }
 
   search(value: string) {
-    this.searchedText.next(value);
+    // this.searchedText.next(value);
+    debugger;
+    const bankData = this.filterBankData(value);
+    this.bankDataChanged.next(this.getBankData(bankData));
+    this.filteredData.next(bankData);
+  }
+
+  private filterBankData(value: string): Bank[] {
+    const filteredBankData = this.getBankFullData().slice();
+    if (value.length !== 0) {
+      return filteredBankData.filter((obj) => {
+        return Object.keys(obj).some((key) => {
+          try {
+            return obj[key].toUpperCase().includes(value.toUpperCase());
+          } catch (e) {
+            return false;
+          }
+        });
+      });
+    } else {
+      return filteredBankData;
+    }
   }
 
   changePage(pageNumber: number) {

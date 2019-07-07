@@ -15,6 +15,14 @@ export class PaginationComponent implements OnInit {
     const banks = bankService.getBankFullData();
     this.paginationNumbers = Math.round(banks.length / 10);
     this.paginationArray = new Array(this.paginationNumbers);
+
+    this.bankService.filteredData.subscribe(
+      (banksData: Bank[]) => {
+        debugger;
+        this.paginationNumbers = Math.round(banksData.length / 10);
+        this.paginationArray = new Array(this.paginationNumbers);
+      }
+    );
   }
 
   ngOnInit() {
