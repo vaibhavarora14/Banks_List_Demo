@@ -17,8 +17,8 @@
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="Favorite">
     <mat-header-cell *matHeaderCellDef> Favorite </mat-header-cell>
-    <mat-cell *matCellDef="let element; let i = index" class="mx-0_5">
-      <button mat-icon-button color="primary" (click)="changeFavoriteState(i, !element.favorite)">
+    <mat-cell *matCellDef="let element;" class="mx-0_5">
+      <button mat-icon-button color="primary" (click)="changeFavoriteState(element.index, !element.favorite)">
         <ng-container *ngIf="element.favorite; then favorite; else favorite_border"></ng-container>
         <ng-template #favorite>
             <mat-icon>favorite</mat-icon>

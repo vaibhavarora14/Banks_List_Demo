@@ -15,7 +15,11 @@ export class BanksService {
   constructor() {
     this.fetchData();
 
+    let index = 0;
     for (const bank of this.bankData) {
+      bank.index = index;
+      index++;
+
       if (!this.bankNames.includes(bank.bank_name)) {
         this.bankNames.push(bank.bank_name);
       }
