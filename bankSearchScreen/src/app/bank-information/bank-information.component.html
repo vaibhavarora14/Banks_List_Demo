@@ -1,5 +1,18 @@
+<mat-form-field class="mr-2">
+  <input matInput (keyup)="applyFilter()" placeholder="Filter" [(ngModel)]="searchValue">
+</mat-form-field>
 <mat-form-field>
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  <mat-label>
+    Select city
+  </mat-label>
+  <mat-select (selectionChange)="setBankSelected($event)" [(value)]="selectValue">
+    <mat-option value=0>
+      -- Select --
+    </mat-option>
+    <mat-option *ngFor="let bank of bankNames" [value]="bank">
+      {{bank}}
+    </mat-option>
+  </mat-select>
 </mat-form-field>
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="Favorite">

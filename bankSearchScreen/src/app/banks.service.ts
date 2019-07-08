@@ -9,9 +9,17 @@ export class BanksService {
   private bankData: Bank[];
 
   banks = new Subject<Bank[]>();
+  private bankColumns = ['Favorite', 'IFSC', 'Id', 'Branch', 'Address', 'City', 'District', 'State', 'Bank name'];
+  private bankNames: string[] = [];
 
   constructor() {
     this.fetchData();
+
+    for (const bank of this.bankData) {
+      if (!this.bankNames.includes(bank.bank_name)) {
+        this.bankNames.push(bank.bank_name);
+      }
+    }
   }
 
   private fetchData() {
@@ -50,5 +58,13 @@ export class BanksService {
   changeFavoriteState(index: number, state: boolean) {
     this.bankData[index].favorite = state;
     this.updateBanksServerSide();
+  }
+
+  getBankColumns() {
+    return this.bankColumns;
+  }
+
+  getBankNames() {
+    return this.bankNames;
   }
 }

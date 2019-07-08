@@ -10,12 +10,18 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./bank-information.component.scss']
 })
 export class BankInformationComponent implements OnInit {
-  displayedColumns: string[] = ['Favorite', 'IFSC', 'Id', 'Branch', 'Address', 'City', 'District', 'State', 'Bank name'];
+  displayedColumns: string[];
   dataSource = new MatTableDataSource<Bank>();
+  bankNames: string[];
+  searchValue: string;
+  selectValue: string;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private bankService: BanksService) { }
+  constructor(private bankService: BanksService) {
+    this.displayedColumns = this.bankService.getBankColumns();
+    this.bankNames = this.bankService.getBankNames();
+   }
 
   ngOnInit() {
     this.dataSource.data = this.bankService.getBanks();
@@ -27,8 +33,9 @@ export class BankInformationComponent implements OnInit {
     );
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    this.dataSource.filter = this.searchValue.trim().toLowerCase();
+    this.selectValue = '0';
   }
 
   changeFavoriteState(index: number, state: boolean) {
@@ -36,6 +43,14 @@ export class BankInformationComponent implements OnInit {
         ? index + this.paginator.pageIndex * this.paginator.pageSize
         : index;
     this.bankService.changeFavoriteState(globalIndex, state);
+  }
+
+  setBankSelected(event) {
+    if (event.value === 0) {
+      return this.dataSource.filter = '';
+    }
+    this.dataSource.filter = event.value.trim().toLowerCase();
+    this.searchValue = '';
   }
 
 }
