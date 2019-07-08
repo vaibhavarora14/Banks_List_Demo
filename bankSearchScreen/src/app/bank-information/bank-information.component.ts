@@ -32,7 +32,10 @@ export class BankInformationComponent implements OnInit {
   }
 
   changeFavoriteState(index: number, state: boolean) {
-    this.bankService.changeFavoriteState(index, state);
+    const globalIndex = this.paginator.pageIndex > 0
+        ? index + this.paginator.pageIndex * this.paginator.pageSize
+        : index;
+    this.bankService.changeFavoriteState(globalIndex, state);
   }
 
 }
