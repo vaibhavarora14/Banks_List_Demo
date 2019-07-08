@@ -2,6 +2,20 @@
   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
 </mat-form-field>
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="Favorite">
+    <mat-header-cell *matHeaderCellDef> Favorite </mat-header-cell>
+    <mat-cell *matCellDef="let element; let i = index" class="mx-0_5">
+      <button mat-icon-button color="primary" (click)="changeFavoriteState(i, !element.favorite)">
+        <ng-container *ngIf="element.favorite; then favorite; else favorite_border"></ng-container>
+        <ng-template #favorite>
+            <mat-icon>favorite</mat-icon>
+        </ng-template>
+        <ng-template #favorite_border>
+            <mat-icon>favorite_border</mat-icon>
+        </ng-template>
+      </button>
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="IFSC">
     <mat-header-cell *matHeaderCellDef> IFSC </mat-header-cell>
     <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.ifsc}} </mat-cell>

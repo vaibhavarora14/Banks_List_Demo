@@ -27,12 +27,16 @@ export class BanksService {
     const dataFromAPI = await fetch('https://vast-shore-74260.herokuapp.com/banks?city=MUMBAI');
     const dataFromResponse: Bank[] = await dataFromAPI.json();
     this.bankData = dataFromResponse;
-    localStorage.setItem('bank_list', JSON.stringify(this.bankData));
-    this.updateChangesWithBanks();
+    this.updateBanksServerSide();
   }
 
   private fetchFromLocalStorage() {
     return JSON.parse(localStorage.getItem('bank_list'));
+  }
+
+  private updateBanksServerSide() {
+    localStorage.setItem('bank_list', JSON.stringify(this.bankData));
+    this.updateChangesWithBanks();
   }
 
   getBanks() {
@@ -41,5 +45,10 @@ export class BanksService {
 
   private updateChangesWithBanks() {
     this.banks.next(this.bankData.slice());
+  }
+
+  changeFavoriteState(index: number, state: boolean) {
+    this.bankData[index].favorite = state;
+    this.updateBanksServerSide();
   }
 }

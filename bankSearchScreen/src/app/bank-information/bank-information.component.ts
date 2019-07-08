@@ -10,7 +10,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./bank-information.component.scss']
 })
 export class BankInformationComponent implements OnInit {
-  displayedColumns: string[] = ['IFSC', 'Id', 'Branch', 'Address', 'City', 'District', 'State', 'Bank name'];
+  displayedColumns: string[] = ['Favorite', 'IFSC', 'Id', 'Branch', 'Address', 'City', 'District', 'State', 'Bank name'];
   dataSource = new MatTableDataSource<Bank>();
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -29,6 +29,10 @@ export class BankInformationComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  changeFavoriteState(index: number, state: boolean) {
+    this.bankService.changeFavoriteState(index, state);
   }
 
 }

@@ -1,4 +1,5 @@
 export interface Bank {
+  favorite?: boolean;
   ifsc: string;
   bank_id: string;
   branch: string;
