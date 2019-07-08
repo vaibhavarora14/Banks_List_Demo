@@ -1,34 +1,40 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <th scope="col" class="column-head"> IFSC </th>
-            <th scope="col" class="column-head"> Id </th>
-            <th scope="col" class="column-head"> Branch </th>
-            <th scope="col" class="column-head mw-15"> Address </th>
-            <th scope="col" class="column-head"> City </th>
-            <th scope="col" class="column-head"> District
-            </th>
-            <th scope="col" class="column-head"> State </th>
-            <th scope="col" class="column-head"> Bank name
-            </th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let bank of bankData">
-              <td> {{bank.ifsc}} </td>
-              <td> {{bank.bank_id}} </td>
-              <td> {{bank.branch}} </td>
-              <td class="mw-15"> {{bank.address}} </td>
-              <td> {{bank.city}} </td>
-              <td> {{bank.district}} </td>
-              <td> {{bank.state}} </td>
-              <td> {{bank.bank_name}} </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+<mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="IFSC">
+    <mat-header-cell *matHeaderCellDef> IFSC </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.ifsc}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Id">
+    <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.id}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Branch">
+    <mat-header-cell *matHeaderCellDef> Branch </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.branch}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Address">
+    <mat-header-cell *matHeaderCellDef> Address </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.address}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="City">
+    <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.city}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="District">
+    <mat-header-cell *matHeaderCellDef> District </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.district}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="State">
+    <mat-header-cell *matHeaderCellDef> State </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.state}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="Bank name">
+    <mat-header-cell *matHeaderCellDef> Bank name </mat-header-cell>
+    <mat-cell *matCellDef="let element" class="mx-0_5"> {{element.bank_name}} </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
