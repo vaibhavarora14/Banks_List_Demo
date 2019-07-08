@@ -50,5 +50,12 @@ export class BankInformationComponent implements OnInit {
     this.searchValue = '';
   }
 
+  changePagination(event) {
+    const value = parseInt(event.target.value);
+    if (Number.isInteger(value) && value > 0) {
+      this.dataSource.paginator._changePageSize(value);
+    }
+  }
+
 }
 
