@@ -21,15 +21,17 @@ export class BankInformationComponent implements OnInit {
 
   constructor(private bankService: BanksService) {
     this.displayedColumns = this.bankService.getBankColumns();
-    this.bankNames = this.bankService.getBankNames();
    }
 
   ngOnInit() {
     this.dataSource.data = this.banksData = this.bankService.getBanks();
+    this.bankNames = this.bankService.getBankNames();
+
     this.dataSource.paginator = this.paginator;
     this.bankService.banks.subscribe(
       (bankData: Bank[]) => {
         this.dataSource.data = this.banksData = bankData;
+        this.bankNames = this.bankService.getBankNames();
       }
     );
   }

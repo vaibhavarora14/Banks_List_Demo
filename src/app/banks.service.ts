@@ -14,16 +14,6 @@ export class BanksService {
 
   constructor() {
     this.fetchData();
-
-    let index = 0;
-    for (const bank of this.bankData) {
-      bank.index = index;
-      index++;
-
-      if (!this.bankNames.includes(bank.bank_name)) {
-        this.bankNames.push(bank.bank_name);
-      }
-    }
   }
 
   private fetchData() {
@@ -58,7 +48,20 @@ export class BanksService {
   }
 
   private updateChangesWithBanks() {
+    this.updateBankNames();
     this.banks.next(this.bankData.slice());
+  }
+
+  private updateBankNames() {
+    let index = 0;
+    for (const bank of this.bankData) {
+      bank.index = index;
+      index++;
+
+      if (!this.bankNames.includes(bank.bank_name)) {
+        this.bankNames.push(bank.bank_name);
+      }
+    }
   }
 
   changeFavoriteState(index: number, state: boolean) {
