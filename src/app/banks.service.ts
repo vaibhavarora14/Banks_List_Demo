@@ -27,7 +27,7 @@ export class BanksService {
   }
 
   private fetchData() {
-    this.bankData = this.fetchFromLocalStorage();
+    this.fetchFromLocalStorage();
     if (this.bankData.length < 1) {
       this.fetchFromAPI();
     } else {
@@ -43,7 +43,9 @@ export class BanksService {
   }
 
   private fetchFromLocalStorage() {
-    return JSON.parse(localStorage.getItem('bank_list'));
+    if (localStorage.getItem('bank_list')) {
+      this.bankData = JSON.parse(localStorage.getItem('bank_list'));
+    }
   }
 
   private updateBanksServerSide() {
