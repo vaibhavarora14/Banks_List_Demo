@@ -17,6 +17,10 @@
 <mat-form-field>
   <input matInput (input)="changePagination($event)" placeholder="Change Page size">
 </mat-form-field>
+<div class="spinner-container" *ngIf="banksData.length < 1">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
   <ng-container matColumnDef="Favorite">
     <mat-header-cell *matHeaderCellDef> Favorite </mat-header-cell>

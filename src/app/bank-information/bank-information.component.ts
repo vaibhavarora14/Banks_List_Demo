@@ -15,6 +15,7 @@ export class BankInformationComponent implements OnInit {
   bankNames: string[];
   searchValue: string;
   selectValue: string;
+  banksData: Bank[] = [];
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -24,11 +25,11 @@ export class BankInformationComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.dataSource.data = this.bankService.getBanks();
+    this.dataSource.data = this.banksData = this.bankService.getBanks();
     this.dataSource.paginator = this.paginator;
     this.bankService.banks.subscribe(
       (bankData: Bank[]) => {
-        this.dataSource.data = bankData;
+        this.dataSource.data = this.banksData = bankData;
       }
     );
   }
