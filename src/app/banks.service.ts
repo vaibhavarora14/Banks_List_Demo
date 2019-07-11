@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class BanksService {
-  private bankData: Bank[];
+  private bankData: Bank[] = [];
 
   banks = new Subject<Bank[]>();
   private bankColumns = ['Favorite', 'IFSC', 'Id', 'Branch', 'Address', 'City', 'District', 'State', 'Bank name'];
@@ -28,7 +28,7 @@ export class BanksService {
 
   private fetchData() {
     this.bankData = this.fetchFromLocalStorage();
-    if (!this.bankData) {
+    if (this.bankData.length < 1) {
       this.fetchFromAPI();
     } else {
       this.updateChangesWithBanks();
